@@ -21,7 +21,7 @@ home = expanduser("~")
 parser = argparse.ArgumentParser()
 parser.add_argument('--input_dir', default='/content/drive/Othercomputers/惠普暗影精灵/华理(new)/组会实验/semantic_seg/Data/val/')  # training dataset
 parser.add_argument('--output_dir', default='/content/drive/Othercomputers/惠普暗影精灵/华理(new)/组会实验/semantic_seg/Data/val/')  # training dataset
-parser.add_argument('--para_dir', default='./parameters')  # training dataset
+parser.add_argument('--para_dir', default='./parameters_densenet121')  # training dataset
 parser.add_argument('--b', type=int, default=1)  # batch size
 parser.add_argument('--q', default='densenet121')  # save checkpoint parameters
 opt = parser.parse_args()
