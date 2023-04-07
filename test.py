@@ -19,11 +19,11 @@ from os.path import expanduser
 home = expanduser("~")
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--input_dir', default='%s/data/datasets/saliency_Dataset/ECSSD'%home)  # training dataset
-parser.add_argument('--output_dir', default='%s/data/datasets/saliency_Dataset/ECSSD/web20w'%home)  # training dataset
-parser.add_argument('--para_dir', default='parameters_web')  # training dataset
-parser.add_argument('--b', type=int, default=20)  # batch size
-parser.add_argument('--q', default='vgg')  # save checkpoint parameters
+parser.add_argument('--input_dir', default='/content/drive/Othercomputers/惠普暗影精灵/华理(new)/组会实验/semantic_seg/Data/val/')  # training dataset
+parser.add_argument('--output_dir', default='/content/drive/Othercomputers/惠普暗影精灵/华理(new)/组会实验/semantic_seg/Data/val/')  # training dataset
+parser.add_argument('--para_dir', default='./parameters')  # training dataset
+parser.add_argument('--b', type=int, default=1)  # batch size
+parser.add_argument('--q', default='densenet121')  # save checkpoint parameters
 opt = parser.parse_args()
 print(opt)
 

@@ -34,7 +34,7 @@ def densenet121(pretrained=False, **kwargs):
         pattern = re.compile(
             r'^(.*denselayer\d+\.(?:norm|relu|conv))\.((?:[12])\.(?:weight|bias|running_mean|running_var))$')
         # state_dict = model_zoo.load_url(model_urls['densenet121'], model_dir='./pretrained')
-        state_dict = 'densenet121-a639ec97.pth'
+        state_dict = '/content/drive/Othercomputers/惠普暗影精灵/华理(new)/组会实验/semantic_seg/densenet121-a639ec97.pth'
         state_dict = torch.load(state_dict)
         for key in list(state_dict.keys()):
             res = pattern.match(key)

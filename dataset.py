@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import PIL.Image as Image
+from PIL import ImageOps
 import torch
 from torch.utils import data
 import pdb
@@ -145,7 +146,7 @@ class MyData(data.Dataset):
             if not name.endswith('.png'):
                 continue
             self.img_names.append(
-                os.path.join(img_root, name[:-4] + '.jpg')
+                os.path.join(img_root, name[:-4] + '.png')
             )
             self.gt_names.append(
                 os.path.join(gt_root, name[:-4] + '.png')
@@ -159,6 +160,8 @@ class MyData(data.Dataset):
         # load image
         img_file = self.img_names[index]
         img = Image.open(img_file)
+        # 将灰度图转换为RGB
+        img = ImageOps.colorize(img, black="black", white="white")
         img = np.array(img, dtype=np.uint8)
         if len(img.shape) < 3:
             img = np.stack((img, img, img), 2)
@@ -226,10 +229,10 @@ class MyTestData(data.Dataset):
         self.img_names = []
         self.names = []
         for i, name in enumerate(file_names):
-            if not name.endswith('.jpg'):
+            if not name.endswith('.png'):
                 continue
             self.img_names.append(
-                os.path.join(img_root, name[:-4] + '.jpg')
+                os.path.join(img_root, name[:-4] + '.png')
             )
             self.names.append(name[:-4])
 
@@ -240,6 +243,8 @@ class MyTestData(data.Dataset):
         # load image
         img_file = self.img_names[index]
         img = Image.open(img_file)
+        # 将灰度图转换为RGB
+        img = ImageOps.colorize(img, black="black", white="white")
         img_size = img.size
         img = img.resize((256, 256))
         img = np.array(img, dtype=np.uint8)

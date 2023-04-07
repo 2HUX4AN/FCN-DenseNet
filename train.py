@@ -14,12 +14,12 @@ import pdb
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--train_dir', default='../Data/train/')  # training dataset
-parser.add_argument('--val_dir', default='../Data/val/')  # training dataset
+parser.add_argument('--train_dir', default='/content/drive/Othercomputers/惠普暗影精灵/华理(new)/组会实验/semantic_seg/Data/train/')  # training dataset
+parser.add_argument('--val_dir', default='/content/drive/Othercomputers/惠普暗影精灵/华理(new)/组会实验/semantic_seg/Data/val/')  # training dataset
 parser.add_argument('--check_dir', default='./parameters')  # save checkpoint parameters
 parser.add_argument('--q', default='densenet121')  # save checkpoint parameters
 parser.add_argument('--b', type=int, default=1)  # batch size
-parser.add_argument('--e', type=int, default=300)  # epoches
+parser.add_argument('--e', type=int, default=30)  # epoches
 opt = parser.parse_args()
 opt.check_dir = opt.check_dir + '_' + opt.q
 
