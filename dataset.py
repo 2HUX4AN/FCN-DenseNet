@@ -159,9 +159,8 @@ class MyData(data.Dataset):
     def __getitem__(self, index):
         # load image
         img_file = self.img_names[index]
-        img = Image.open(img_file)
+        img = Image.open(img_file).convert('RGB')
         # 将灰度图转换为RGB
-        img = ImageOps.colorize(img, black="black", white="white")
         img = np.array(img, dtype=np.uint8)
         if len(img.shape) < 3:
             img = np.stack((img, img, img), 2)
@@ -242,9 +241,8 @@ class MyTestData(data.Dataset):
     def __getitem__(self, index):
         # load image
         img_file = self.img_names[index]
-        img = Image.open(img_file)
+        img = Image.open(img_file).convert('RGB')
         # 将灰度图转换为RGB
-        img = ImageOps.colorize(img, black="black", white="white")
         img_size = img.size
         img = img.resize((256, 256))
         img = np.array(img, dtype=np.uint8)
