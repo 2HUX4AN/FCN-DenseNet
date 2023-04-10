@@ -147,28 +147,34 @@ class MyData(data.Dataset):
         # img_root = os.path.join(self.root, 'images')
         # gt_root = os.path.join(self.root, 'masks')
         # file_names = os.listdir(gt_root)
-        file_names = os.listdir(self.root)
+        gt_root = os.path.join(self.root, 'data')
+        file_names = os.listdir(gt_root)
 
         self.img_names = []
         self.map_names = []
         self.gt_names = []
         self.names = []
         for i, name in enumerate(file_names):
-            if not name.endswith('.png'):
-                continue
+            # if not name.endswith('.png'):
+            #     continue
             # self.img_names.append(
             #     os.path.join(img_root, name[:-4] + '.png')
             # )
-            self.img_names.append(
-                os.path.join(name[:-9] + '_img1.png')
-            )
+            if name.endswith('_img1.png'):
+                self.img_names.append(
+                    os.path.join(gt_root, name[:-9] + '_img1.png')
+                )
             # self.gt_names.append(
             #     os.path.join(gt_root, name[:-4] + '.png')
             # )
-            self.gt_names.append(
-                os.path.join(name[:-9] + '_flow.flo')
-            )
-            self.names.append(name[:-9])
+            if name.endswith('_flow.flo'):
+                self.gt_names.append(
+                    os.path.join(gt_root, name[:-10] + '_smoke.flo')
+                )
+            # self.names.append(name[:-9])
+
+
+
     def __len__(self):
         return len(self.gt_names)
 
@@ -243,17 +249,25 @@ class MyTestData(data.Dataset):
         self.root = root
         self._transform = transform
 
-        img_root = os.path.join(self.root, 'images')
+        # img_root = os.path.join(self.root, 'images')
+        # file_names = os.listdir(img_root)
+        img_root = os.path.join(self.root, 'data')
         file_names = os.listdir(img_root)
+
         self.img_names = []
         self.names = []
         for i, name in enumerate(file_names):
-            if not name.endswith('.png'):
-                continue
-            self.img_names.append(
-                os.path.join(img_root, name[:-4] + '.png')
-            )
-            self.names.append(name[:-4])
+            # if not name.endswith('.png'):
+            #     continue
+            if name.endswith('_img1.png'):
+                self.img_names.append(
+                    os.path.join(img_root, name[:-9] + '_img1.png')
+                )
+                self.names.append(name[:-4])
+            # self.img_names.append(
+            #     os.path.join(img_root, name[:-4] + '.png')
+            # )
+            # self.names.append(name[:-4])
 
     def __len__(self):
         return len(self.img_names)
