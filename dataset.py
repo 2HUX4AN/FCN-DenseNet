@@ -9,6 +9,15 @@ import random
 import scipy.stats
 import cv2
 
+import FlowFile_utils
+
+def render_label_from_flow(flow):
+    # flow[flow == 255] = 0
+    flow[flow > 0] = 255
+    flow = flow.astype(np.uint8)
+    label = Image.fromarray(flow)
+    return label
+
 
 class MySynData(data.Dataset):
     """
@@ -135,9 +144,11 @@ class MyData(data.Dataset):
         self.is_hflip = hflip
         self.is_vflip = vflip
         self.is_crop = crop
-        img_root = os.path.join(self.root, 'images')
-        gt_root = os.path.join(self.root, 'masks')
-        file_names = os.listdir(gt_root)
+        # img_root = os.path.join(self.root, 'images')
+        # gt_root = os.path.join(self.root, 'masks')
+        # file_names = os.listdir(gt_root)
+        file_names = os.listdir(self.root)
+
         self.img_names = []
         self.map_names = []
         self.gt_names = []
@@ -145,14 +156,19 @@ class MyData(data.Dataset):
         for i, name in enumerate(file_names):
             if not name.endswith('.png'):
                 continue
+            # self.img_names.append(
+            #     os.path.join(img_root, name[:-4] + '.png')
+            # )
             self.img_names.append(
-                os.path.join(img_root, name[:-4] + '.png')
+                os.path.join(name[:-9] + '_img1.png')
             )
+            # self.gt_names.append(
+            #     os.path.join(gt_root, name[:-4] + '.png')
+            # )
             self.gt_names.append(
-                os.path.join(gt_root, name[:-4] + '.png')
+                os.path.join(name[:-9] + '_flow.flo')
             )
-            self.names.append(name[:-4])
-
+            self.names.append(name[:-9])
     def __len__(self):
         return len(self.gt_names)
 
@@ -168,8 +184,12 @@ class MyData(data.Dataset):
             img = img[:, :, :3]
 
         gt_file = self.gt_names[index]
-        gt = Image.open(gt_file)
-        gt = np.array(gt, dtype=np.int32)
+        # gt = Image.open(gt_file)
+        flow_gt = FlowFile_utils.read(gt_file)
+        smoke_label = abs(flow_gt[:, :, 0]) + abs(flow_gt[:, :, 1])
+        label_gray = render_label_from_flow(smoke_label)
+        
+        gt = np.array(label_gray, dtype=np.int32)
         gt[gt != 0] = 1
         if self.is_crop:
             H = int(0.9 * img.shape[0])
